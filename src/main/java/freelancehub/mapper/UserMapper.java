@@ -4,7 +4,7 @@ import freelancehub.dto.UserDTO;
 import freelancehub.entity.User;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     UserDTO userToUserDTO(User user);
