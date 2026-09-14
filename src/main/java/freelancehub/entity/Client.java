@@ -3,18 +3,24 @@ package freelancehub.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import lombok.Data;
 import jakarta.persistence.Id;
+import lombok.NoArgsConstructor;
+
 
 import java.util.Date;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Client {
 
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long Id;
+    private Long id;
     private String name;
     private String email;
+    private String phone;
     private String billingAddress;
-    private Date createdAt;
+    private User user;
 }

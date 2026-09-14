@@ -20,6 +20,10 @@ public class UserService {
     }
 
     public void registerUser(UserDTO userDTO){
+        String exitedEmail = userDTO.getEmail();
+        if(exitedEmail.equals(userRepository.findByEmail(userDTO.getEmail()))){
+            throw new  InvalidCredentialsException("Invalid email or password");
+        }
         User user = userMapper.userDTOToUser(userDTO);
         userRepository.save(user);
     }

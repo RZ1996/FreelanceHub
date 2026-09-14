@@ -4,15 +4,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 @Data
 @Entity
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long Id;
+    private Long id;
     private String name;
     private String surName;
     private String email;
@@ -25,7 +27,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.createdAt = createdAt;
-
 
     }
 }
