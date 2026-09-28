@@ -1,12 +1,10 @@
 package freelancehub.entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
@@ -15,18 +13,19 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    @Column(name="USER_NAME", length=50, nullable=false, unique=false)
     private String name;
+    @Column(name="USER_SURNAME", length=50, nullable=false, unique=false)
     private String surName;
+    @Column(name="USER_EMAIL", length=100, nullable=false, unique=true)
     private String email;
+    @Column(name="USER_PASSWORD", length=60, nullable=false, unique=false)
     private String password;
-    private Date createdAt;
+    @Column(name="REGISTERED_TIME", length=50, nullable=false, unique=false)
+    private LocalDateTime createdAt;
 
-    public User(String name, String surName, String email, String password, Date createdAt){
-        this.name = name;
-        this.surName = surName;
-        this.email = email;
-        this.password = password;
-        this.createdAt = createdAt;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Client> clients;
 
-    }
+
 }
