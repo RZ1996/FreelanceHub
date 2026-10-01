@@ -1,8 +1,7 @@
 package freelancehub.controller;
 import freelancehub.dto.LoginDTO;
-import freelancehub.dto.RegisterDTO;
+import freelancehub.dto.RegisterRequestDTO;
 import freelancehub.dto.UserDTO;
-import freelancehub.repository.UserRepository;
 import freelancehub.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/api/auth/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO){
-        userService.registerUser(userDTO);
+    public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDTO registerRequestDTO){
+        userService.registerUser(registerRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered");
 
     }

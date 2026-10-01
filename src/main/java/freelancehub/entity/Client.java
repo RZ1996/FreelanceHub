@@ -19,7 +19,7 @@ public class Client {
     private String email;
     @Column(name="CLIENT_PHONE", length=50, nullable=true, unique=false)
     private String phone;
-    @Column(name="CLIENT_BILLINGADDRESS", length=20, nullable=false, unique=false)
+    @Column(name="CLIENT_BILLING_ADDRESS", length=20, nullable=false, unique=false)
     private String billingAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)

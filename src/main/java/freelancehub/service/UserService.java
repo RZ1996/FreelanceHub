@@ -1,5 +1,6 @@
 package freelancehub.service;
-import freelancehub.dto.RegisterDTO;
+import freelancehub.dto.RegisterRequestDTO;
+import freelancehub.exceptions.EmailAlreadyExistsException;
 import freelancehub.exceptions.InvalidCredentialsException;
 import freelancehub.dto.LoginDTO;
 import freelancehub.dto.UserDTO;
@@ -19,12 +20,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void registerUser(UserDTO userDTO){
-        String exitedEmail = userDTO.getEmail();
-        if(exitedEmail.equals(userRepository.findByEmail(userDTO.getEmail()))){
-            throw new  InvalidCredentialsException("Invalid email or password");
+    public void registerUser(RegisterRequestDTO registerRequestDTO){
+        if (userRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
+            throw new EmailAlreadyExistsException("Email already registered");
         }
-        User user = userMapper.userDTOToUser(userDTO);
+        User user = userMapper.userDTOToUser(registerRequestDTO);
         userRepository.save(user);
     }
 

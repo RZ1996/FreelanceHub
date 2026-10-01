@@ -1,5 +1,5 @@
 package freelancehub.mapper;
-
+import freelancehub.dto.RegisterRequestDTO;
 import freelancehub.dto.UserDTO;
 import freelancehub.entity.User;
 import org.mapstruct.Mapper;
@@ -8,5 +8,5 @@ import org.mapstruct.Mapper;
 public interface UserMapper {
 
     UserDTO userToUserDTO(User user);
-    User userDTOToUser(UserDTO userDTO);
+    User userDTOToUser(RegisterRequestDTO registerRequestDTO);
 }
