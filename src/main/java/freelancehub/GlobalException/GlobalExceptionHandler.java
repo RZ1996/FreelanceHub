@@ -1,7 +1,5 @@
 package freelancehub.GlobalException;
-import freelancehub.exceptions.ClientNotFoundException;
-import freelancehub.exceptions.EmailAlreadyExistsException;
-import freelancehub.exceptions.InvalidCredentialsException;
+import freelancehub.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,5 +23,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> ClientNotFoundException(InvalidCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
+
+    @ExceptionHandler(InvoiceNotFoundException.class)
+    public ResponseEntity<String> InvoiceNotFoundException(InvalidCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<String> ProjectNotFoundException(InvalidCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<String> TaskNotFoundException(InvalidCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
 
 }

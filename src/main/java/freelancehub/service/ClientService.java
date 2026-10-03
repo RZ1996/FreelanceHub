@@ -3,6 +3,7 @@ package freelancehub.service;
 import freelancehub.dto.ClientDTO;
 import freelancehub.entity.Client;
 import freelancehub.exceptions.ClientNotFoundException;
+import freelancehub.exceptions.InvalidCredentialsException;
 import freelancehub.mapper.ClientMapper;
 import freelancehub.repository.ClientRepository;
 import org.springframework.stereotype.Service;
@@ -33,16 +34,14 @@ public class ClientService {
         return clientMapper.clientToClientDTO(client);
     }
 
-    public ClientDTO updateClient(ClientDTO clientDTO){
-        Client client = new Client();
-        ClientDTO newClient = clientMapper.clientToClientDTO(client);
-        newClient.setId(client.getId());
-        newClient.setName(clientDTO.getName());
-        newClient.setEmail(client.getEmail());
-        newClient.setPhone(client.getPhone());
-        newClient.setBillingAddress(client.getBillingAddress());
-        clientRepository.save(clientMapper.clientDTOtoClient(newClient));
-        return  newClient;
+    public ClientDTO updateClient(Long id, ClientDTO clientDTO){
+        Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
+        client.setName(clientDTO.getName());
+        client.setEmail(clientDTO.getEmail());
+        client.setPhone(clientDTO.getPhone());
+        client.setBillingAddress(clientDTO.getBillingAddress());
+        clientRepository.save(client);
+        return  clientMapper.clientToClientDTO(client);
     }
 
     public void deleteClient(Long id){

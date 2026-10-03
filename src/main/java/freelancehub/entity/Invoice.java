@@ -25,7 +25,7 @@ public class Invoice {
     @Column(name = "INVOICE_DATE", nullable = false)
     private LocalDate issueDate;
 
-    @Column(name = "INVOICE_DATE", nullable = false)
+    @Column(name = "INVOICE_DUE_DATE", nullable = false)
     private LocalDate dueDate;
 
     @Column(name = "INVOICE_AMOUNT", precision = 10, scale = 2, nullable = false)

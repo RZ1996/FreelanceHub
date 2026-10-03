@@ -21,25 +21,25 @@ public class ClientController {
     }
 
     @GetMapping("/api/clients")
-    public ResponseEntity<String> getClients(@RequestBody ClientDTO clientDTO){
-        clientService.createClient(clientDTO);
+    public ResponseEntity<String> getClients(){
+        clientService.getClients();
         return ResponseEntity.status(HttpStatus.OK).body("Clients listed");
     }
 
-    @GetMapping("/api/clients/{1}")
-    public ResponseEntity<String> getClients(@RequestParam long id){
+    @GetMapping("/api/clients/{id}")
+    public ResponseEntity<String> getClient(@PathVariable  long id){
         clientService.getClientByID(id);
         return ResponseEntity.status(HttpStatus.OK).body("Client listed");
     }
 
-    @PutMapping("/api/clients/{1}")
-    public ResponseEntity<String> updateClient(@RequestBody ClientDTO clientDTO){
-        clientService.updateClient(clientDTO);
+    @PutMapping("/api/clients/{id}")
+    public ResponseEntity<String> updateClient(@PathVariable  long id, @RequestBody ClientDTO clientDTO){
+        clientService.updateClient(id,clientDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Client updated");
     }
 
-    @DeleteMapping("/api/clients")
-    public ResponseEntity<String> deleteClient(@RequestParam long id){
+    @DeleteMapping("/api/clients/{id}")
+    public ResponseEntity<String> deleteClient(@PathVariable long id){
         clientService.deleteClient(id);
         return ResponseEntity.status(HttpStatus.OK).body("Client removed");
     }
