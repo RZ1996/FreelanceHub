@@ -9,6 +9,8 @@ import freelancehub.mapper.UserMapper;
 import freelancehub.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class UserService {
 
@@ -20,12 +22,19 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void registerUser(RegisterRequestDTO registerRequestDTO){
+    public UserDTO registerUser(RegisterRequestDTO registerRequestDTO){
         if (userRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("Email already registered");
         }
-        User user = userMapper.userDTOToUser(registerRequestDTO);
+        User user = new User();
+        user.setName(registerRequestDTO.getName());
+        user.setSurName(registerRequestDTO.getSurName());
+        user.setEmail(registerRequestDTO.getEmail());
+        user.setPassword(registerRequestDTO.getPassword());
+        user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
+       return userMapper.userToUserDTO(user);
+
     }
 
     public UserDTO loginUser(LoginDTO login){

@@ -28,7 +28,7 @@ public class UserController {
     @PostMapping("/api/auth/register")
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDTO registerRequestDTO){
         userService.registerUser(registerRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered");
+        return ResponseEntity.status(HttpStatus.CREATED).body("User logged");
 
     }
 }
