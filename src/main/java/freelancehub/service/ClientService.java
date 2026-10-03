@@ -20,7 +20,11 @@ public class ClientService {
     }
 
     public ClientDTO createClient(ClientDTO clientDTO) {
-        Client client = clientMapper.clientDTOtoClient(clientDTO);
+        Client client = new Client();
+        client.setName(clientDTO.getName());
+        client.setEmail(clientDTO.getEmail());
+        client.setPhone(client.getPhone());
+        client.setBillingAddress(clientDTO.getBillingAddress());
         clientRepository.save(client);
         return clientMapper.clientToClientDTO(client);
     }

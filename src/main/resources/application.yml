@@ -15,3 +15,6 @@ spring:
 
   application:
     name: FreelanceHub
+
+    jwt:
+      secret: ${JWT_SECRET}
