@@ -18,7 +18,6 @@ public class InvoiceService {
     }
 
     public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO){
-
         Invoice invoice = invoiceMapper.invoiceDTOToInvoice(invoiceDTO);
         invoiceRepository.save(invoice);
         return invoiceMapper.invoiceToInvoiceDTO(invoice);

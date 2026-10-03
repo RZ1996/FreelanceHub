@@ -2,10 +2,13 @@ package freelancehub.service;
 
 import freelancehub.dto.ClientDTO;
 import freelancehub.entity.Client;
+import freelancehub.entity.User;
 import freelancehub.exceptions.ClientNotFoundException;
 import freelancehub.exceptions.InvalidCredentialsException;
 import freelancehub.mapper.ClientMapper;
 import freelancehub.repository.ClientRepository;
+import freelancehub.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,19 +16,20 @@ public class ClientService {
 
     private final ClientMapper clientMapper;
     private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
 
-    public ClientService(ClientMapper clientMapper, ClientRepository clientRepository) {
+    public ClientService(ClientMapper clientMapper, ClientRepository clientRepository, UserRepository userRepository) {
         this.clientMapper = clientMapper;
         this.clientRepository = clientRepository;
+        this.userRepository = userRepository;
     }
 
-    public ClientDTO createClient(ClientDTO clientDTO) {
-        Client client = new Client();
-        client.setName(clientDTO.getName());
-        client.setEmail(clientDTO.getEmail());
-        client.setPhone(client.getPhone());
-        client.setBillingAddress(clientDTO.getBillingAddress());
+    public ClientDTO createClient(Long userId, ClientDTO clientDTO) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Client client = clientMapper.clientDTOtoClient(clientDTO);
+        client.setUser(user);
         clientRepository.save(client);
+
         return clientMapper.clientToClientDTO(client);
     }
 

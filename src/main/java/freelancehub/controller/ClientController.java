@@ -4,6 +4,7 @@ import freelancehub.dto.ClientDTO;
 import freelancehub.service.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +16,8 @@ public class ClientController {
     }
 
     @PostMapping("/api/clients")
-    public ResponseEntity<String> createClient(@RequestBody ClientDTO clientDTO){
-        clientService.createClient(clientDTO);
+    public ResponseEntity<String> createClient(@RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
+        clientService.createClient(userId, clientDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Client created");
     }
 
