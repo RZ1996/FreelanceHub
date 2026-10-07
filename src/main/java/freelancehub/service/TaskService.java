@@ -26,13 +26,17 @@ public class TaskService {
 
     public TaskDTO createTask(Long projectId, TaskDTO dto) {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
-        Task task = taskMapper.taskDTOToTask(dto);
+        Task task = new Task();
         task.setProject(project);
+        task = taskMapper.taskDTOToTask(dto);
         taskRepository.save(task);
         return taskMapper.taskToTaskDTO(task);
     }
     public TaskDTO updateTask(Long projectId, TaskDTO taskDTO){
-        Task task = taskRepository.findById(projectId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+        Task task = new Task();
+        task.setProject(project);
+        task.setTitle(taskDTO.getTitle());
         task.setStatus(taskDTO.getStatus());
         task.setDescription(taskDTO.getDescription());
         task.setEstimatedHours(taskDTO.getEstimatedHours());

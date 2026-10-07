@@ -15,8 +15,8 @@ public class InvoiceController {
     }
 
     @PostMapping("/api/invoices")
-    public ResponseEntity<String> crateInvoice(@RequestBody InvoiceDTO invoiceDTO){
-        invoiceService.createInvoice(invoiceDTO);
+    public ResponseEntity<String> crateInvoice(@RequestBody InvoiceDTO invoiceDTO, Long clientId){
+        invoiceService.createInvoice(clientId, invoiceDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Invoice created");
     }
 

@@ -3,6 +3,7 @@ import freelancehub.dto.TimeEntryDTO;
 import freelancehub.service.TimeEntryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +16,8 @@ public class TimeEntryController {
     }
 
     @PostMapping("/api/tasks/{taskId}/time-entries")
-    public ResponseEntity<String> createTimeEntry(@PathVariable Long taskId, @RequestBody TimeEntryDTO timeEntryDTO){
-        timeEntryService.createTimeEntry(taskId,timeEntryDTO);
+    public ResponseEntity<String> createTimeEntry(@PathVariable Long taskId, @AuthenticationPrincipal Long userId, @RequestBody TimeEntryDTO timeEntryDTO){
+        timeEntryService.createTimeEntry(taskId,userId,timeEntryDTO);
         return ResponseEntity.status(HttpStatus.OK).body("TimeEntry created");
 
     }

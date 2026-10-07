@@ -11,6 +11,9 @@ import freelancehub.repository.UserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ClientService {
 
@@ -29,12 +32,18 @@ public class ClientService {
         Client client = clientMapper.clientDTOtoClient(clientDTO);
         client.setUser(user);
         clientRepository.save(client);
-
         return clientMapper.clientToClientDTO(client);
     }
 
-    public void getClients() {
-        clientRepository.findAll();
+    public List<ClientDTO> getClients(Long userId) {
+       User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+       List<Client> clients = user.getClients();
+       List<ClientDTO> clientDTOs = new ArrayList<ClientDTO>();
+       for(int i = 0; i < clients.size(); i ++){
+           clientDTOs.add(clientMapper.clientToClientDTO(clients.get(i)));
+       }
+       return clientDTOs;
+
     }
 
     public ClientDTO getClientByID(Long id) {

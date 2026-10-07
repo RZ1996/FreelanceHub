@@ -31,11 +31,9 @@ public class UserService {
         if (userRepository.findByEmail(registerRequestDTO.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("Email already registered");
         }
-        User user = new User();
-        user.setName(registerRequestDTO.getName());
-        user.setSurName(registerRequestDTO.getSurName());
-        user.setEmail(registerRequestDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequestDTO.getPassword()));
+
+        User user = userMapper.userDTOToUser(registerRequestDTO);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
        return userMapper.userToUserDTO(user);

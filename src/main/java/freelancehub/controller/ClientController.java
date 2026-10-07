@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ClientController {
 
@@ -22,9 +24,9 @@ public class ClientController {
     }
 
     @GetMapping("/api/clients")
-    public ResponseEntity<String> getClients(){
-        clientService.getClients();
-        return ResponseEntity.status(HttpStatus.OK).body("Clients listed");
+    public ResponseEntity<List<ClientDTO>> getClients(@AuthenticationPrincipal Long userId){
+        List<ClientDTO> clients = clientService.getClients(userId);
+        return ResponseEntity.ok(clients);
     }
 
     @GetMapping("/api/clients/{id}")
