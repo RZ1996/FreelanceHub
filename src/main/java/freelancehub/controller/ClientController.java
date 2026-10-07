@@ -30,9 +30,9 @@ public class ClientController {
     }
 
     @GetMapping("/api/clients/{id}")
-    public ResponseEntity<String> getClient(@PathVariable  long id){
-        clientService.getClientByID(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Client listed");
+    public ResponseEntity<ClientDTO> getClient(@PathVariable  long id){
+        ClientDTO clientDTO = clientService.getClientByID(id);
+        return ResponseEntity.ok(clientDTO);
     }
 
     @PutMapping("/api/clients/{id}")
