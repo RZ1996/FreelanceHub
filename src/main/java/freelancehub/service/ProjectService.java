@@ -36,8 +36,10 @@ public class ProjectService {
         return projectDTOS;
     }
 
-    public ProjectDTO createProject(ProjectDTO projectDTO){
+    public ProjectDTO createProject(ProjectDTO projectDTO, Long clientID){
+        Client client = clientRepository.findById(clientID).orElseThrow(() -> new ClientNotFoundException("Client not found"));
         Project project = projectMapper.projectDTOToProject(projectDTO);
+        project.setClient(client);
         projectRepository.save(project);
         return projectMapper.projectToProjectDTO(project);
     }

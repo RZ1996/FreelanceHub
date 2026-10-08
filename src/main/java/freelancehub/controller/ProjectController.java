@@ -17,19 +17,19 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @GetMapping("/api/projects")
-    public ResponseEntity <List<ProjectDTO>> getProjects(Long clientID){
-        List<ProjectDTO> projects = projectService.getProjects(clientID);
+    @GetMapping("/api/clients/{clientId}/projects")
+    public ResponseEntity <List<ProjectDTO>> getProjects(@PathVariable Long clientId){
+        List<ProjectDTO> projects = projectService.getProjects(clientId);
         return ResponseEntity.ok(projects);
     }
 
-    @PostMapping("/api/projects")
-    public ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO){
-        projectService.createProject(projectDTO);
+    @PostMapping("/api/clients/{clientId}/projects")
+    public ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO, @PathVariable Long clientId){
+        projectService.createProject(projectDTO, clientId);
         return ResponseEntity.status(HttpStatus.OK).body("Project created");
     }
 
-    @PatchMapping("/api/projects/{id}/status")
+    @PatchMapping("/api/clients/{clientId}/projects")
     public ResponseEntity<String> updateProject(@PathVariable Long id, @RequestBody ProjectDTO projectDTO){
         projectService.updateProject(id,projectDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Project updated");
