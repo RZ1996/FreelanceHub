@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,6 +30,9 @@ public class Project {
 
     @Column(name = "HOURLY_RATE", precision = 10, scale = 2, nullable = false)
     private BigDecimal hourlyRate;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    private List<Task> tasks;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

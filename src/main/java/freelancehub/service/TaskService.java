@@ -10,6 +10,9 @@ import freelancehub.repository.ProjectRepository;
 import freelancehub.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TaskService {
 
@@ -24,22 +27,30 @@ public class TaskService {
 
     }
 
-    public TaskDTO createTask(Long projectId, TaskDTO dto) {
+    public TaskDTO createTask(Long projectId, TaskDTO taskDTO) {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
-        Task task = new Task();
+        Task task = taskMapper.taskDTOToTask(taskDTO);
+        task = taskMapper.taskDTOToTask(taskDTO);
         task.setProject(project);
-        task = taskMapper.taskDTOToTask(dto);
         taskRepository.save(task);
         return taskMapper.taskToTaskDTO(task);
     }
+
+    public List<TaskDTO> getTasks(Long projectId){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+        List<Task> tasks = project.getTasks();
+        List<TaskDTO> taskDTOS = new ArrayList<TaskDTO>();
+
+        for(int i = 0; i < tasks.size(); i ++ ){
+            taskDTOS.add(taskMapper.taskToTaskDTO(tasks.get(i)));
+        }
+
+        return taskDTOS;
+    }
     public TaskDTO updateTask(Long projectId, TaskDTO taskDTO){
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
-        Task task = new Task();
+        Task task = taskMapper.taskDTOToTask(taskDTO);
         task.setProject(project);
-        task.setTitle(taskDTO.getTitle());
-        task.setStatus(taskDTO.getStatus());
-        task.setDescription(taskDTO.getDescription());
-        task.setEstimatedHours(taskDTO.getEstimatedHours());
         return taskMapper.taskToTaskDTO(task);
 
     }
