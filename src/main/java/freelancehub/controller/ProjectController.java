@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProjectController {
 
@@ -16,9 +18,9 @@ public class ProjectController {
     }
 
     @GetMapping("/api/projects")
-    public ResponseEntity<String> getProjects(){
-        projectService.getProjects();
-        return ResponseEntity.status(HttpStatus.OK).body("Projects listed");
+    public ResponseEntity <List<ProjectDTO>> getProjects(Long clientID){
+        List<ProjectDTO> projects = projectService.getProjects(clientID);
+        return ResponseEntity.ok(projects);
     }
 
     @PostMapping("/api/projects")
