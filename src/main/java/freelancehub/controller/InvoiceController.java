@@ -21,14 +21,14 @@ public class InvoiceController {
     }
 
     @GetMapping("/api/invoices/{id}/pdf")
-    public ResponseEntity<String> getInvoice(@RequestParam Long id){
-        invoiceService.getInvoice(id);
+    public ResponseEntity<String> getInvoice(@RequestParam Long clientId){
+        invoiceService.getInvoice(clientId);
         return ResponseEntity.status(HttpStatus.OK).body("Invoice created");
     }
 
     @PatchMapping("/api/invoices/{id}/status")
-    public ResponseEntity<String> updateInvoice(@RequestParam Long id, @RequestBody InvoiceDTO invoiceDTO){
-        invoiceService.updateInvoice(id,invoiceDTO);
+    public ResponseEntity<String> updateInvoice(@RequestParam Long  clientId, @RequestBody InvoiceDTO invoiceDTO){
+        invoiceService.updateInvoice(clientId,invoiceDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Invoice updated");
     }
 }

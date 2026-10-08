@@ -54,4 +54,18 @@ public class TaskService {
         return taskMapper.taskToTaskDTO(task);
 
     }
+
+    public TaskDTO getTaskById(Long projectId){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+        Task task  = taskRepository.findById(projectId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        return taskMapper.taskToTaskDTO(task);
+
+    }
+
+    public void deleteTask(Long projectId){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+        Task task  = taskRepository.findById(projectId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        taskRepository.delete(task);
+
+    }
 }

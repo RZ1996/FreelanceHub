@@ -24,9 +24,8 @@ public class InvoiceService {
 
     public InvoiceDTO createInvoice(Long clientId, InvoiceDTO invoiceDTO){
         Client client = clientRepository.findById(clientId).orElseThrow(() -> new ClientNotFoundException("Client not found"));
-        Invoice invoice = new Invoice();
+        Invoice invoice = invoiceMapper.invoiceDTOToInvoice(invoiceDTO);
         invoice.setClient(client);
-        invoice = invoiceMapper.invoiceDTOToInvoice(invoiceDTO);
         invoiceRepository.save(invoice);
         return invoiceMapper.invoiceToInvoiceDTO(invoice);
     }
@@ -35,18 +34,11 @@ public class InvoiceService {
         invoiceRepository.findById(id);
     }
 
-    public InvoiceDTO updateInvoice(Long id, InvoiceDTO invoiceDTO){
-        Invoice invoice = invoiceRepository.findById(id).orElseThrow(() -> new InvoiceNotFoundException("Invoice not found"));
-        invoice.setIssueDate(invoiceDTO.getIssueDate());
-        invoice.setDueDate(invoiceDTO.getDueDate());
-        invoice.setTotalAmount(invoiceDTO.getTotalAmount());
-        invoice.setPeriodTo(invoiceDTO.getPeriodTo());
-        invoice.setPeriodFrom(invoiceDTO.getPeriodFrom());
-        invoice.setStatus(invoiceDTO.getStatus());
+    public InvoiceDTO updateInvoice(Long clientId, InvoiceDTO invoiceDTO){
+        Client client = clientRepository.findById(clientId).orElseThrow(() -> new ClientNotFoundException("Client not found"));
+        Invoice invoice = invoiceMapper.invoiceDTOToInvoice(invoiceDTO);
+        invoiceRepository.save(invoice);
         return invoiceMapper.invoiceToInvoiceDTO(invoice);
     }
-
-
-
 
 }

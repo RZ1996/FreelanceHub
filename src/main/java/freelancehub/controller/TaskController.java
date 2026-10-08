@@ -21,15 +21,26 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body("Task created");
     }
 
-    @PostMapping("/api/projects/{projectId}/tasks")
+    @GetMapping("/api/projects/{projectId}/tasks")
     public ResponseEntity<List<TaskDTO>> getTasks(@PathVariable Long projectId){
         List<TaskDTO> tasks = taskService.getTasks(projectId);
         return ResponseEntity.ok(tasks);
+    }
+    @GetMapping("/api/projects/{projectId}/tasks")
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long projectId){
+        TaskDTO task = taskService.getTaskById(projectId);
+        return ResponseEntity.ok(task);
     }
 
     @PatchMapping("/api/projects/{projectId}/tasks")
     public ResponseEntity<String> updateTask(@PathVariable Long projectId, @RequestBody TaskDTO taskDTO){
         taskService.updateTask(projectId,taskDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("Task updated");
+    }
+
+    @DeleteMapping("/api/projects/{projectId}/tasks")
+    public ResponseEntity<String> deleteTask(@PathVariable Long projectId){
+        taskService.deleteTask(projectId);
         return ResponseEntity.status(HttpStatus.OK).body("Task updated");
     }
 }
