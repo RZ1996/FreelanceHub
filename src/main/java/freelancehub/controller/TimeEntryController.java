@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class TimeEntryController {
 
@@ -23,8 +25,8 @@ public class TimeEntryController {
     }
 
     @GetMapping("/api/time-entries/summary")
-    public ResponseEntity<String> getTimeEntries(){
-        timeEntryService.getTimeEntries();
-        return ResponseEntity.status(HttpStatus.OK).body("TimeEntries listed");
+    public ResponseEntity <List<TimeEntryDTO>> getTimeEntries(@PathVariable Long taskId, @AuthenticationPrincipal Long userId){
+        List<TimeEntryDTO> timeEntries = timeEntryService.getTimeEntries(taskId, userId);
+        return ResponseEntity.ok(timeEntries);
     }
 }

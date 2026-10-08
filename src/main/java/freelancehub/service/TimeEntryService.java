@@ -12,6 +12,9 @@ import freelancehub.repository.UserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TimeEntryService {
 
@@ -30,15 +33,25 @@ public class TimeEntryService {
     public TimeEntryDTO createTimeEntry(Long taskId, Long userId, TimeEntryDTO timeEntryDTO){
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        TimeEntry timeEntry = new TimeEntry();
+        TimeEntry timeEntry = timeEntryMapper.timeEntryDTOToTimeEntry(timeEntryDTO);
         timeEntry.setUser(user);
         timeEntry.setTask(task);
+        timeEntryRepository.save(timeEntry);
         timeEntry = timeEntryMapper.timeEntryDTOToTimeEntry(timeEntryDTO);
         return timeEntryMapper.timeEntryToTimeEntryDTO(timeEntry);
     }
 
-    public void getTimeEntries(){
-        timeEntryRepository.findAll();
+    public List<TimeEntryDTO> getTimeEntries(Long taskId, Long userId){
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        List<TimeEntry> timeEntries = timeEntryRepository.getTimeEntriesByTask(task);
+        List<TimeEntryDTO> timeEntryDTOS = new ArrayList<TimeEntryDTO>();
+        for(int i = 0; i < timeEntries.size(); i ++){
+            timeEntryDTOS.add(timeEntryMapper.timeEntryToTimeEntryDTO(timeEntries.get(i)));
+        }
+
+        return timeEntryDTOS;
+
     }
 
 
