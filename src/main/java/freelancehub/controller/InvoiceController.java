@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class InvoiceController {
 
@@ -14,21 +16,27 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @PostMapping("/api/invoices")
-    public ResponseEntity<String> crateInvoice(@RequestBody InvoiceDTO invoiceDTO, Long clientId){
-        invoiceService.createInvoice(clientId, invoiceDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Invoice created");
+    @PostMapping("/api/invoices/{clientId}")
+    public ResponseEntity<InvoiceDTO> crateInvoice(@RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId){
+        InvoiceDTO invoice = invoiceService.createInvoice(clientId, invoiceDTO);
+        return ResponseEntity.ok(invoice);
     }
 
-    @GetMapping("/api/invoices/{id}/pdf")
-    public ResponseEntity<String> getInvoice(@RequestParam Long clientId){
-        invoiceService.getInvoice(clientId);
-        return ResponseEntity.status(HttpStatus.OK).body("Invoice created");
+    @GetMapping("/api/clients/invoices/{clientId}")
+    public ResponseEntity<List<InvoiceDTO>> getInvoices(@PathVariable Long clientId){
+       List<InvoiceDTO> invoices = invoiceService.getInvoices(clientId);
+        return ResponseEntity.ok(invoices);
     }
 
-    @PatchMapping("/api/invoices/{id}/status")
-    public ResponseEntity<String> updateInvoice(@RequestParam Long  clientId, @RequestBody InvoiceDTO invoiceDTO){
-        invoiceService.updateInvoice(clientId,invoiceDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Invoice updated");
+    @GetMapping("/api/invoices/{invoiceId}")
+    public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long invoiceId){
+        InvoiceDTO invoice = invoiceService.getInvoiceById(invoiceId);
+        return ResponseEntity.ok(invoice);
+    }
+
+    @PutMapping("/api/invoices/{invoiceId}")
+    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable Long invoiceId, @RequestBody InvoiceDTO invoiceDTO){
+       InvoiceDTO updatedInvoiceDTO = invoiceService.updateInvoice(invoiceId, invoiceDTO);
+        return ResponseEntity.ok(updatedInvoiceDTO);
     }
 }

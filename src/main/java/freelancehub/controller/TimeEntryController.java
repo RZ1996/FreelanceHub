@@ -18,15 +18,15 @@ public class TimeEntryController {
     }
 
     @PostMapping("/api/tasks/{taskId}/time-entries")
-    public ResponseEntity<String> createTimeEntry(@PathVariable Long taskId, @AuthenticationPrincipal Long userId, @RequestBody TimeEntryDTO timeEntryDTO){
-        timeEntryService.createTimeEntry(taskId,userId,timeEntryDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("TimeEntry created");
+    public ResponseEntity<TimeEntryDTO> createTimeEntry(@PathVariable Long taskId, @AuthenticationPrincipal Long userId, @RequestBody TimeEntryDTO timeEntryDTO){
+        TimeEntryDTO newTimeEntryDTO = timeEntryService.createTimeEntry(taskId,userId,timeEntryDTO);
+        return ResponseEntity.ok(newTimeEntryDTO);
 
     }
 
-    @GetMapping("/api/time-entries/summary")
-    public ResponseEntity <List<TimeEntryDTO>> getTimeEntries(@PathVariable Long taskId, @AuthenticationPrincipal Long userId){
-        List<TimeEntryDTO> timeEntries = timeEntryService.getTimeEntries(taskId, userId);
+    @GetMapping("/api/{taskId}/time-entries")
+    public ResponseEntity <List<TimeEntryDTO>> getTimeEntries(@PathVariable Long taskId){
+        List<TimeEntryDTO> timeEntries = timeEntryService.getTimeEntries(taskId);
         return ResponseEntity.ok(timeEntries);
     }
 }

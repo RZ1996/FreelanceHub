@@ -24,14 +24,14 @@ public class ProjectController {
     }
 
     @PostMapping("/api/clients/{clientId}/projects")
-    public ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO, @PathVariable Long clientId){
-        projectService.createProject(projectDTO, clientId);
-        return ResponseEntity.status(HttpStatus.OK).body("Project created");
+    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO, @PathVariable Long clientId){
+        ProjectDTO NewProjectDTO = projectService.createProject(projectDTO, clientId);
+        return ResponseEntity.ok(NewProjectDTO);
     }
 
     @PatchMapping("/api/clients/{clientId}/projects")
-    public ResponseEntity<String> updateProject(@PathVariable Long id, @RequestBody ProjectDTO projectDTO){
-        projectService.updateProject(id,projectDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Project updated");
+    public ResponseEntity<ProjectDTO> updateProject(@PathVariable Long id, @RequestBody ProjectDTO projectDTO){
+        ProjectDTO updatedProjectDTO = projectService.updateProject(id,projectDTO);
+        return ResponseEntity.ok(updatedProjectDTO);
     }
 }

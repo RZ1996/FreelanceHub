@@ -41,9 +41,8 @@ public class TimeEntryService {
         return timeEntryMapper.timeEntryToTimeEntryDTO(timeEntry);
     }
 
-    public List<TimeEntryDTO> getTimeEntries(Long taskId, Long userId){
+    public List<TimeEntryDTO> getTimeEntries(Long taskId){
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         List<TimeEntry> timeEntries = timeEntryRepository.getTimeEntriesByTask(task);
         List<TimeEntryDTO> timeEntryDTOS = new ArrayList<TimeEntryDTO>();
         for(int i = 0; i < timeEntries.size(); i ++){

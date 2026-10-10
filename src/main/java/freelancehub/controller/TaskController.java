@@ -16,9 +16,9 @@ public class TaskController {
         this.taskService = taskService;
     }
     @PostMapping("/api/projects/{projectId}/tasks")
-    public ResponseEntity<String> createTask(@PathVariable Long projectId, @RequestBody TaskDTO taskDTO){
-        taskService.createTask(projectId,taskDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Task created");
+    public ResponseEntity<TaskDTO> createTask(@PathVariable Long projectId, @RequestBody TaskDTO taskDTO){
+        TaskDTO NewTaskDTO = taskService.createTask(projectId,taskDTO);
+        return ResponseEntity.ok(NewTaskDTO);
     }
 
     @GetMapping("/api/projects/{projectId}/tasks")
@@ -26,16 +26,16 @@ public class TaskController {
         List<TaskDTO> tasks = taskService.getTasks(projectId);
         return ResponseEntity.ok(tasks);
     }
-    @GetMapping("/api/projects/{projectId}/tasks")
-    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long projectId){
-        TaskDTO task = taskService.getTaskById(projectId);
+    @GetMapping("/api/tasks/{id}")
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long taskId){
+        TaskDTO task = taskService.getTaskById(taskId);
         return ResponseEntity.ok(task);
     }
 
     @PatchMapping("/api/projects/{projectId}/tasks")
-    public ResponseEntity<String> updateTask(@PathVariable Long projectId, @RequestBody TaskDTO taskDTO){
-        taskService.updateTask(projectId,taskDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Task updated");
+    public ResponseEntity<TaskDTO> updateTask(@PathVariable Long projectId, @RequestBody TaskDTO taskDTO){
+        TaskDTO updatedTaskDTO = taskService.updateTask(projectId,taskDTO);
+        return ResponseEntity.ok(updatedTaskDTO);
     }
 
     @DeleteMapping("/api/projects/{projectId}/tasks")

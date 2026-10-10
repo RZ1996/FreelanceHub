@@ -18,9 +18,9 @@ public class ClientController {
     }
 
     @PostMapping("/api/clients")
-    public ResponseEntity<String> createClient(@RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
-        clientService.createClient(userId, clientDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Client created");
+    public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
+        ClientDTO client = clientService.createClient(userId, clientDTO);
+        return  ResponseEntity.ok(client);
     }
 
     @GetMapping("/api/clients")
@@ -30,15 +30,15 @@ public class ClientController {
     }
 
     @GetMapping("/api/clients/{id}")
-    public ResponseEntity<ClientDTO> getClient(@PathVariable  long id){
+    public ResponseEntity<ClientDTO> getClient(@PathVariable long id){
         ClientDTO clientDTO = clientService.getClientByID(id);
         return ResponseEntity.ok(clientDTO);
     }
 
     @PutMapping("/api/clients/{id}")
-    public ResponseEntity<String> updateClient(@PathVariable  long id, @RequestBody ClientDTO clientDTO){
-        clientService.updateClient(id,clientDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Client updated");
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable long id, @RequestBody ClientDTO clientDTO){
+        ClientDTO client = clientService.updateClient(id,clientDTO);
+        return ResponseEntity.ok(client);
     }
 
     @DeleteMapping("/api/clients/{id}")
