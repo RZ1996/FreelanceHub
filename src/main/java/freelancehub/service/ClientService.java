@@ -65,7 +65,7 @@ public class ClientService {
     }
 
 
-    private Client validationOfClientOwner(Long id, Long userId){
+    public Client validationOfClientOwner(Long id, Long userId){
         Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
         Long ownerId = client.getUser().getId();
         if(!(ownerId.equals(userId)))

@@ -1,5 +1,6 @@
 package freelancehub.service;
 import freelancehub.dto.TaskDTO;
+import freelancehub.entity.Client;
 import freelancehub.entity.Project;
 import freelancehub.entity.Task;
 import freelancehub.exceptions.ProjectNotFoundException;
@@ -19,24 +20,28 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final TaskMapper taskMapper;
+    private final ClientService clientService;
 
-    public TaskService(TaskRepository taskRepository,ProjectRepository projectRepository, TaskMapper taskMapper){
+    public TaskService(TaskRepository taskRepository, ProjectRepository projectRepository, TaskMapper taskMapper, ClientService clientService){
     this.taskRepository = taskRepository;
     this.projectRepository = projectRepository;
     this.taskMapper = taskMapper;
 
+        this.clientService = clientService;
     }
 
-    public TaskDTO createTask(Long projectId, TaskDTO taskDTO) {
+    public TaskDTO createTask(Long projectId, TaskDTO taskDTO, Long userId) {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+        clientService.validationOfClientOwner(project.getClient().getId(), userId);
         Task task = taskMapper.taskDTOToTask(taskDTO);
         task.setProject(project);
         taskRepository.save(task);
         return taskMapper.taskToTaskDTO(task);
     }
 
-    public List<TaskDTO> getTasks(Long projectId){
+    public List<TaskDTO> getTasks(Long projectId, Long userId){
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
+        clientService.validationOfClientOwner(project.getClient().getId(), userId);
         List<Task> tasks = project.getTasks();
         List<TaskDTO> taskDTOS = new ArrayList<TaskDTO>();
 
@@ -45,22 +50,26 @@ public class TaskService {
         }
         return taskDTOS;
     }
-    public TaskDTO updateTask(Long projectId, TaskDTO taskDTO){
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFoundException("Project not found"));
-        Task task = taskMapper.taskDTOToTask(taskDTO);
-        task.setProject(project);
-        return taskMapper.taskToTaskDTO(task);
-
-    }
-
-    public TaskDTO getTaskById(Long taskId){
+    public TaskDTO updateTask(Long taskId, TaskDTO taskDTO, Long userId){
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        clientService.validationOfClientOwner(task.getProject().getClient().getId(), userId);
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setStatus(taskDTO.getStatus());
+        task.setEstimatedHours(taskDTO.getEstimatedHours());
+        taskRepository.save(task);
         return taskMapper.taskToTaskDTO(task);
-
     }
 
-    public void deleteTask(Long taskId){
+    public TaskDTO getTaskById(Long taskId, Long userId){
+        Task task = taskRepository.findById(taskId).orElseThrow(()-> new TaskNotFoundException("Task not found"));
+        clientService.validationOfClientOwner(task.getProject().getClient().getId(), userId);
+        return taskMapper.taskToTaskDTO(task);
+    }
+
+    public void deleteTask(Long taskId, Long userId){
         Task task  = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException("Task not found"));
+        clientService.validationOfClientOwner(task.getProject().getClient().getId(), userId);
         taskRepository.delete(task);
 
     }

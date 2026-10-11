@@ -1,10 +1,9 @@
 package freelancehub.controller;
 import freelancehub.dto.InvoiceDTO;
 import freelancehub.service.InvoiceService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -17,26 +16,26 @@ public class InvoiceController {
     }
 
     @PostMapping("/api/invoices/{clientId}")
-    public ResponseEntity<InvoiceDTO> crateInvoice(@RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId){
-        InvoiceDTO invoice = invoiceService.createInvoice(clientId, invoiceDTO);
+    public ResponseEntity<InvoiceDTO> createInvoice(@RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
+        InvoiceDTO invoice = invoiceService.createInvoice(clientId, invoiceDTO, userId);
         return ResponseEntity.ok(invoice);
     }
 
     @GetMapping("/api/clients/invoices/{clientId}")
-    public ResponseEntity<List<InvoiceDTO>> getInvoices(@PathVariable Long clientId){
-       List<InvoiceDTO> invoices = invoiceService.getInvoices(clientId);
+    public ResponseEntity<List<InvoiceDTO>> getInvoices(@PathVariable Long clientId, @AuthenticationPrincipal Long userId){
+       List<InvoiceDTO> invoices = invoiceService.getInvoices(clientId, userId);
         return ResponseEntity.ok(invoices);
     }
 
     @GetMapping("/api/invoices/{invoiceId}")
-    public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long invoiceId){
-        InvoiceDTO invoice = invoiceService.getInvoiceById(invoiceId);
+    public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long invoiceId, @AuthenticationPrincipal Long userId){
+        InvoiceDTO invoice = invoiceService.getInvoiceById(invoiceId,userId);
         return ResponseEntity.ok(invoice);
     }
 
     @PutMapping("/api/invoices/{invoiceId}")
-    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable Long invoiceId, @RequestBody InvoiceDTO invoiceDTO){
-       InvoiceDTO updatedInvoiceDTO = invoiceService.updateInvoice(invoiceId, invoiceDTO);
+    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable Long invoiceId, @RequestBody InvoiceDTO invoiceDTO, @AuthenticationPrincipal Long userId){
+       InvoiceDTO updatedInvoiceDTO = invoiceService.updateInvoice(invoiceId, invoiceDTO, userId);
         return ResponseEntity.ok(updatedInvoiceDTO);
     }
 }
