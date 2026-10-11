@@ -30,7 +30,7 @@ public class ClientController {
     }
 
     @GetMapping("/api/clients/{id}")
-    public ResponseEntity<ClientDTO> getClientBtId(@PathVariable Long id, @AuthenticationPrincipal Long userId){
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id, @AuthenticationPrincipal Long userId){
         ClientDTO clientDTO = clientService.getClientById(id, userId);
         return ResponseEntity.ok(clientDTO);
     }
@@ -42,8 +42,8 @@ public class ClientController {
     }
 
     @DeleteMapping("/api/clients/{id}")
-    public ResponseEntity<String> deleteClient(@PathVariable Long id){
-        clientService.deleteClient(id);
+    public ResponseEntity<String> deleteClient(@PathVariable Long id, @AuthenticationPrincipal Long userId){
+        clientService.deleteClient(id, userId);
         return ResponseEntity.status(HttpStatus.OK).body("Client removed");
     }
 
