@@ -46,12 +46,15 @@ public class ClientService {
 
     }
 
-    public ClientDTO getClientByID(Long id) {
+    public ClientDTO getClientById(Long id, Long userId) {
         Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
+        Long ownerId = client.getUser().getId();
+        if(!(ownerId.equals(userId)))
+            throw new ClientNotFoundException("Client not found");
         return clientMapper.clientToClientDTO(client);
     }
 
-    public ClientDTO updateClient(Long id, ClientDTO clientDTO){
+    public ClientDTO updateClient(Long id, ClientDTO clientDTO, Long userId){
         Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
         client.setName(clientDTO.getName());
         client.setEmail(clientDTO.getEmail());

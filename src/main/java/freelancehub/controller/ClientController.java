@@ -20,7 +20,7 @@ public class ClientController {
     @PostMapping("/api/clients")
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
         ClientDTO client = clientService.createClient(userId, clientDTO);
-        return  ResponseEntity.ok(client);
+        return ResponseEntity.ok(client);
     }
 
     @GetMapping("/api/clients")
@@ -30,23 +30,21 @@ public class ClientController {
     }
 
     @GetMapping("/api/clients/{id}")
-    public ResponseEntity<ClientDTO> getClient(@PathVariable long id){
-        ClientDTO clientDTO = clientService.getClientByID(id);
+    public ResponseEntity<ClientDTO> getClientBtId(@PathVariable Long id, @AuthenticationPrincipal Long userId){
+        ClientDTO clientDTO = clientService.getClientById(id, userId);
         return ResponseEntity.ok(clientDTO);
     }
 
     @PutMapping("/api/clients/{id}")
-    public ResponseEntity<ClientDTO> updateClient(@PathVariable long id, @RequestBody ClientDTO clientDTO){
-        ClientDTO client = clientService.updateClient(id,clientDTO);
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable Long id, @RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
+        ClientDTO client = clientService.updateClient(id,clientDTO, userId);
         return ResponseEntity.ok(client);
     }
 
     @DeleteMapping("/api/clients/{id}")
-    public ResponseEntity<String> deleteClient(@PathVariable long id){
+    public ResponseEntity<String> deleteClient(@PathVariable Long id){
         clientService.deleteClient(id);
         return ResponseEntity.status(HttpStatus.OK).body("Client removed");
     }
-
-
 
 }

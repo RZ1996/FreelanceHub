@@ -23,7 +23,6 @@ public class User {
     private String password;
     @Column(name="REGISTERED_TIME", length=50, nullable=false, unique=false)
     private LocalDateTime createdAt;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Client> clients;
 
