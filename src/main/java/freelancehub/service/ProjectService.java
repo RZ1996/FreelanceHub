@@ -28,8 +28,8 @@ public class ProjectService {
         this.clientService = clientService;
     }
 
-    public List<ProjectDTO> getProjects(Long clientId){
-        Client client = clientRepository.findById(clientId).orElseThrow(() -> new ClientNotFoundException("Client not found"));
+    public List<ProjectDTO> getProjects(Long clientId, Long userId){
+        Client client = clientService.validationOfClientOwner(clientId, userId);
         List<Project> projects = client.getProjects();
         List<ProjectDTO> projectDTOS = new ArrayList<ProjectDTO>();
         for(int i = 0; i < projects.size(); i ++ ){

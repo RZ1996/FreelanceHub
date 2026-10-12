@@ -19,8 +19,8 @@ public class ProjectController {
     }
 
     @GetMapping("/api/clients/{clientId}/projects")
-    public ResponseEntity <List<ProjectDTO>> getProjects(@PathVariable Long clientId){
-        List<ProjectDTO> projects = projectService.getProjects(clientId);
+    public ResponseEntity <List<ProjectDTO>> getProjects(@PathVariable Long clientId, @AuthenticationPrincipal Long userId){
+        List<ProjectDTO> projects = projectService.getProjects(clientId, userId);
         return ResponseEntity.ok(projects);
     }
 
