@@ -2,7 +2,7 @@ package freelancehub.service;
 import freelancehub.dto.InvoiceDTO;
 import freelancehub.entity.Client;
 import freelancehub.entity.Invoice;
-import freelancehub.exceptions.ClientNotFoundException;
+import freelancehub.exceptions.InvoiceNotEditableException;
 import freelancehub.exceptions.InvoiceNotFoundException;
 import freelancehub.mapper.InvoiceMapper;
 import freelancehub.repository.ClientRepository;
@@ -55,6 +55,7 @@ public class InvoiceService {
 
     public InvoiceDTO updateInvoice(Long invoiceId, InvoiceDTO invoiceDTO, Long userId){
         Invoice invoice = invoiceRepository.findById(invoiceId).orElseThrow(() -> new InvoiceNotFoundException("Invoice not found"));
+        validateInvoice(invoice);
         clientService.validationOfClientOwner(invoice.getClient().getId(), userId);
         invoice.setIssueDate(invoiceDTO.getIssueDate());
         invoice.setDueDate(invoiceDTO.getDueDate());
@@ -66,5 +67,11 @@ public class InvoiceService {
         return invoiceMapper.invoiceToInvoiceDTO(invoice);
 
     }
+    private Invoice validateInvoice(Invoice invoice){
+        if (invoice.getStatus() != Invoice.Status.DRAFT)
+            throw new InvoiceNotEditableException("Invoice is not able to edit");
+            return invoice;
+    }
+
 
 }

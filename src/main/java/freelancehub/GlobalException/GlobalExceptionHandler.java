@@ -36,6 +36,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> TaskNotFoundException(TaskNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+    @ExceptionHandler(InvoiceNotEditableException.class)
+    public ResponseEntity<String> InvoiceNotEditableException(InvoiceNotEditableException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 
 
 }
