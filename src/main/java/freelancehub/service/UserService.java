@@ -13,12 +13,13 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class UserService {
+public class UserService  {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+
 
     public UserService(UserMapper userMapper, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService){
         this.userMapper = userMapper;
@@ -47,10 +48,8 @@ public class UserService {
         if (!passwordEncoder.matches(login.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException("Invalid email or password");
         }
+
         return jwtService.generateToken(user.getId());
     }
-
-
-
 
 }

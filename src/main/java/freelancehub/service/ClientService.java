@@ -1,5 +1,4 @@
 package freelancehub.service;
-
 import freelancehub.dto.ClientDTO;
 import freelancehub.entity.Client;
 import freelancehub.entity.User;
@@ -62,5 +61,13 @@ public class ClientService {
 
     public void deleteClient(Long id, Long userId){
         clientRepository.deleteById(id);
+    }
+
+    public Client validationOfClientOwner(Long id, Long userId){
+        Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
+        Long ownerId = client.getUser().getId();
+        if(!(ownerId.equals(userId)))
+            throw new ClientNotFoundException("Client not found");
+        return client;
     }
 }

@@ -1,5 +1,4 @@
 package freelancehub.controller;
-
 import freelancehub.dto.ClientDTO;
 import freelancehub.service.ClientService;
 import jakarta.validation.Valid;

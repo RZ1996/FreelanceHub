@@ -26,8 +26,8 @@ public class TimeEntryController {
     }
 
     @GetMapping("/api/{taskId}/time-entries")
-    public ResponseEntity <List<TimeEntryDTO>> getTimeEntries(@PathVariable Long taskId){
-        List<TimeEntryDTO> timeEntries = timeEntryService.getTimeEntries(taskId);
+    public ResponseEntity <List<TimeEntryDTO>> getTimeEntries(@PathVariable Long taskId, @AuthenticationPrincipal Long userId){
+        List<TimeEntryDTO> timeEntries = timeEntryService.getTimeEntries(taskId, userId);
         return ResponseEntity.ok(timeEntries);
     }
 }

@@ -1,7 +1,6 @@
 package freelancehub.controller;
 import freelancehub.dto.InvoiceDTO;
 import freelancehub.service.InvoiceService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +17,10 @@ public class InvoiceController {
     }
 
     @PostMapping("/api/invoices/{clientId}")
-    public ResponseEntity<InvoiceDTO> crateInvoice(@Valid  @RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId){
+    public ResponseEntity<InvoiceDTO> crateInvoice(@RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId){
         InvoiceDTO invoice = invoiceService.createInvoice(clientId, invoiceDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(invoice);
+        return ResponseEntity.ok(invoice);
     }
-
 
     @GetMapping("/api/clients/invoices/{clientId}")
     public ResponseEntity<List<InvoiceDTO>> getInvoices(@PathVariable Long clientId){
@@ -37,7 +35,7 @@ public class InvoiceController {
     }
 
     @PutMapping("/api/invoices/{invoiceId}")
-    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable Long invoiceId, @Valid @RequestBody InvoiceDTO invoiceDTO){
+    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable Long invoiceId, @RequestBody InvoiceDTO invoiceDTO){
        InvoiceDTO updatedInvoiceDTO = invoiceService.updateInvoice(invoiceId, invoiceDTO);
         return ResponseEntity.ok(updatedInvoiceDTO);
     }
