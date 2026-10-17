@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class ClientDTO {
-    private Long Id;
+    private Long id;
 
     @NotBlank
     @Size(max = 50, message = "For name is maximum 50 characters")

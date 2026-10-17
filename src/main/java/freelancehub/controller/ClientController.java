@@ -18,7 +18,7 @@ public class ClientController {
     }
 
     @PostMapping("/api/clients")
-    public ResponseEntity<ClientDTO> createClient(@Valid  @RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
+    public ResponseEntity<ClientDTO> createClient(@Valid @RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
         ClientDTO client = clientService.createClient(userId, clientDTO);
         return  ResponseEntity.status(HttpStatus.CREATED).body(client);
     }
@@ -36,7 +36,7 @@ public class ClientController {
     }
 
     @PutMapping("/api/clients/{id}")
-    public ResponseEntity<ClientDTO> updateClient(@PathVariable Long id, @Valid  @RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable Long id, @Valid @RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
         ClientDTO client = clientService.updateClient(id,clientDTO, userId);
         return ResponseEntity.ok(client);
     }

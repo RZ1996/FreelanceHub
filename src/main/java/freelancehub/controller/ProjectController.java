@@ -2,6 +2,7 @@ package freelancehub.controller;
 
 import freelancehub.dto.ProjectDTO;
 import freelancehub.service.ProjectService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,13 +26,13 @@ public class ProjectController {
     }
 
     @PostMapping("/api/clients/{clientId}/projects")
-    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
+    public ResponseEntity<ProjectDTO> createProject(@Valid  @RequestBody ProjectDTO projectDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
         ProjectDTO NewProjectDTO = projectService.createProject(projectDTO, clientId, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(NewProjectDTO);
     }
 
     @PatchMapping("/api/clients/{clientId}/projects")
-    public ResponseEntity<ProjectDTO> updateProject(@PathVariable Long id, @RequestBody ProjectDTO projectDTO, @AuthenticationPrincipal Long userId){
+    public ResponseEntity<ProjectDTO> updateProject(@PathVariable Long id, @Valid @RequestBody ProjectDTO projectDTO, @AuthenticationPrincipal Long userId){
         ProjectDTO updatedProjectDTO = projectService.updateProject(id,projectDTO, userId);
         return ResponseEntity.ok(updatedProjectDTO);
     }

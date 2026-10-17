@@ -1,6 +1,7 @@
 package freelancehub.controller;
 import freelancehub.dto.InvoiceDTO;
 import freelancehub.service.InvoiceService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +19,7 @@ public class InvoiceController {
     }
 
     @PostMapping("/api/invoices/{clientId}")
-    public ResponseEntity<InvoiceDTO> crateInvoice(@RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
+    public ResponseEntity<InvoiceDTO> crateInvoice(@Valid  @RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
         InvoiceDTO invoice = invoiceService.createInvoice(clientId, invoiceDTO, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(invoice);
     }
@@ -36,7 +37,7 @@ public class InvoiceController {
     }
 
     @PutMapping("/api/invoices/{invoiceId}")
-    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable Long invoiceId, @RequestBody InvoiceDTO invoiceDTO, @AuthenticationPrincipal Long userId){
+    public ResponseEntity<InvoiceDTO> updateInvoice(@PathVariable Long invoiceId, @Valid @RequestBody InvoiceDTO invoiceDTO, @AuthenticationPrincipal Long userId){
        InvoiceDTO updatedInvoiceDTO = invoiceService.updateInvoice(invoiceId, invoiceDTO, userId);
         return ResponseEntity.ok(updatedInvoiceDTO);
     }
