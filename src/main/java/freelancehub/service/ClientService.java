@@ -4,7 +4,6 @@ import freelancehub.dto.ClientDTO;
 import freelancehub.entity.Client;
 import freelancehub.entity.User;
 import freelancehub.exceptions.ClientNotFoundException;
-import freelancehub.exceptions.InvalidCredentialsException;
 import freelancehub.mapper.ClientMapper;
 import freelancehub.repository.ClientRepository;
 import freelancehub.repository.UserRepository;
@@ -46,12 +45,12 @@ public class ClientService {
 
     }
 
-    public ClientDTO getClientByID(Long id) {
+    public ClientDTO getClientById(Long id, Long userId) {
         Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
         return clientMapper.clientToClientDTO(client);
     }
 
-    public ClientDTO updateClient(Long id, ClientDTO clientDTO){
+    public ClientDTO updateClient(Long id, ClientDTO clientDTO, Long userId){
         Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
         client.setName(clientDTO.getName());
         client.setEmail(clientDTO.getEmail());
@@ -61,7 +60,7 @@ public class ClientService {
         return  clientMapper.clientToClientDTO(client);
     }
 
-    public void deleteClient(Long id){
+    public void deleteClient(Long id, Long userId){
         clientRepository.deleteById(id);
     }
 }

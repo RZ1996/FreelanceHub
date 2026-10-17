@@ -27,7 +27,7 @@ public class ProjectController {
     @PostMapping("/api/clients/{clientId}/projects")
     public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO, @Valid @PathVariable Long clientId){
         ProjectDTO NewProjectDTO = projectService.createProject(projectDTO, clientId);
-        return ResponseEntity.ok(NewProjectDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(NewProjectDTO);
     }
 
     @PatchMapping("/api/clients/{clientId}/projects")
