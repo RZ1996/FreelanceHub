@@ -1,8 +1,6 @@
 package freelancehub.dto;
-
 import lombok.Data;
 
-import java.util.Date;
 @Data
 public class UserDTO {
     private final String name;

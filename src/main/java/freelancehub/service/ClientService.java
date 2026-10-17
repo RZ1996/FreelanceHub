@@ -34,36 +34,34 @@ public class ClientService {
     }
 
     public List<ClientDTO> getClients(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        List<Client> clients = user.getClients();
-        List<ClientDTO> clientDTOs = new ArrayList<ClientDTO>();
-        for(int i = 0; i < clients.size(); i ++){
-            clientDTOs.add(clientMapper.clientToClientDTO(clients.get(i)));
-        }
-        return clientDTOs;
+       User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+       List<Client> clients = user.getClients();
+       List<ClientDTO> clientDTOs = new ArrayList<ClientDTO>();
+       for(int i = 0; i < clients.size(); i ++){
+           clientDTOs.add(clientMapper.clientToClientDTO(clients.get(i)));
+       }
+       return clientDTOs;
 
     }
 
-    public ClientDTO getClientById(Long id, Long userId) {
-        Client client = validationOfClientOwner(id, userId);
+    public ClientDTO getClientByID(Long id) {
+        Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
         return clientMapper.clientToClientDTO(client);
     }
 
-    public ClientDTO updateClient(Long id, ClientDTO clientDTO, Long userId){
-        Client client = validationOfClientOwner(id, userId);
+    public ClientDTO updateClient(Long id, ClientDTO clientDTO){
+        Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
         client.setName(clientDTO.getName());
         client.setEmail(clientDTO.getEmail());
         client.setPhone(clientDTO.getPhone());
         client.setBillingAddress(clientDTO.getBillingAddress());
         clientRepository.save(client);
-        return clientMapper.clientToClientDTO(client);
+        return  clientMapper.clientToClientDTO(client);
     }
 
-    public void deleteClient(Long id, Long userId){
-        Client client = validationOfClientOwner(id, userId);
-        clientRepository.deleteById(client.getId());
+    public void deleteClient(Long id){
+        clientRepository.deleteById(id);
     }
-
 
     public Client validationOfClientOwner(Long id, Long userId){
         Client client = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));

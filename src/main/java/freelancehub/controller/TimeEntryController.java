@@ -1,6 +1,7 @@
 package freelancehub.controller;
 import freelancehub.dto.TimeEntryDTO;
 import freelancehub.service.TimeEntryService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +19,7 @@ public class TimeEntryController {
     }
 
     @PostMapping("/api/tasks/{taskId}/time-entries")
-    public ResponseEntity<TimeEntryDTO> createTimeEntry(@PathVariable Long taskId, @AuthenticationPrincipal Long userId, @RequestBody TimeEntryDTO timeEntryDTO){
+    public ResponseEntity<TimeEntryDTO> createTimeEntry(@PathVariable Long taskId, @AuthenticationPrincipal Long userId, @Valid @RequestBody TimeEntryDTO timeEntryDTO){
         TimeEntryDTO newTimeEntryDTO = timeEntryService.createTimeEntry(taskId,userId,timeEntryDTO);
         return ResponseEntity.ok(newTimeEntryDTO);
 

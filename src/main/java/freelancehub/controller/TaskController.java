@@ -18,13 +18,13 @@ public class TaskController {
     }
     @PostMapping("/api/projects/{projectId}/tasks")
     public ResponseEntity<TaskDTO> createTask(@PathVariable Long projectId, @RequestBody TaskDTO taskDTO, @AuthenticationPrincipal Long userId){
-        TaskDTO NewTaskDTO = taskService.createTask(projectId, taskDTO, userId);
+        TaskDTO NewTaskDTO = taskService.createTask(projectId,taskDTO, userId);
         return ResponseEntity.ok(NewTaskDTO);
     }
 
     @GetMapping("/api/projects/{projectId}/tasks")
     public ResponseEntity<List<TaskDTO>> getTasks(@PathVariable Long projectId, @AuthenticationPrincipal Long userId){
-        List<TaskDTO> tasks = taskService.getTasks(projectId, userId );
+        List<TaskDTO> tasks = taskService.getTasks(projectId, userId);
         return ResponseEntity.ok(tasks);
     }
     @GetMapping("/api/tasks/{id}")

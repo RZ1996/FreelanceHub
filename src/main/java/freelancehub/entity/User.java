@@ -13,11 +13,11 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @Column(name="USER_NAME", length=50, nullable=false, unique=false)
+    @Column(name="USER_NAME", length=30, nullable=false, unique=false)
     private String name;
-    @Column(name="USER_SURNAME", length=50, nullable=false, unique=false)
+    @Column(name="USER_SURNAME", length=30, nullable=false, unique=false)
     private String surName;
-    @Column(name="USER_EMAIL", length=100, nullable=false, unique=true)
+    @Column(name="USER_EMAIL", length=50, nullable=false, unique=true)
     private String email;
     @Column(name="USER_PASSWORD", length=60, nullable=false, unique=false)
     private String password;

@@ -1,5 +1,4 @@
 package freelancehub.controller;
-
 import freelancehub.dto.ClientDTO;
 import freelancehub.service.ClientService;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ public class ClientController {
     @PostMapping("/api/clients")
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
         ClientDTO client = clientService.createClient(userId, clientDTO);
-        return ResponseEntity.ok(client);
+        return  ResponseEntity.ok(client);
     }
 
     @GetMapping("/api/clients")
@@ -30,21 +29,23 @@ public class ClientController {
     }
 
     @GetMapping("/api/clients/{id}")
-    public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id, @AuthenticationPrincipal Long userId){
-        ClientDTO clientDTO = clientService.getClientById(id, userId);
+    public ResponseEntity<ClientDTO> getClient(@PathVariable long id){
+        ClientDTO clientDTO = clientService.getClientByID(id);
         return ResponseEntity.ok(clientDTO);
     }
 
     @PutMapping("/api/clients/{id}")
-    public ResponseEntity<ClientDTO> updateClient(@PathVariable Long id, @RequestBody ClientDTO clientDTO, @AuthenticationPrincipal Long userId){
-        ClientDTO client = clientService.updateClient(id,clientDTO, userId);
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable long id, @RequestBody ClientDTO clientDTO){
+        ClientDTO client = clientService.updateClient(id,clientDTO);
         return ResponseEntity.ok(client);
     }
 
     @DeleteMapping("/api/clients/{id}")
-    public ResponseEntity<String> deleteClient(@PathVariable Long id, @AuthenticationPrincipal Long userId){
-        clientService.deleteClient(id, userId);
+    public ResponseEntity<String> deleteClient(@PathVariable long id){
+        clientService.deleteClient(id);
         return ResponseEntity.status(HttpStatus.OK).body("Client removed");
     }
+
+
 
 }

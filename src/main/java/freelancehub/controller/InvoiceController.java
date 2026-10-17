@@ -1,9 +1,11 @@
 package freelancehub.controller;
 import freelancehub.dto.InvoiceDTO;
 import freelancehub.service.InvoiceService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -16,7 +18,7 @@ public class InvoiceController {
     }
 
     @PostMapping("/api/invoices/{clientId}")
-    public ResponseEntity<InvoiceDTO> createInvoice(@RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
+    public ResponseEntity<InvoiceDTO> crateInvoice(@RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
         InvoiceDTO invoice = invoiceService.createInvoice(clientId, invoiceDTO, userId);
         return ResponseEntity.ok(invoice);
     }
@@ -29,7 +31,7 @@ public class InvoiceController {
 
     @GetMapping("/api/invoices/{invoiceId}")
     public ResponseEntity<InvoiceDTO> getInvoiceById(@PathVariable Long invoiceId, @AuthenticationPrincipal Long userId){
-        InvoiceDTO invoice = invoiceService.getInvoiceById(invoiceId,userId);
+        InvoiceDTO invoice = invoiceService.getInvoiceById(invoiceId, userId);
         return ResponseEntity.ok(invoice);
     }
 
