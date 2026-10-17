@@ -20,7 +20,7 @@ public class InvoiceController {
     @PostMapping("/api/invoices/{clientId}")
     public ResponseEntity<InvoiceDTO> crateInvoice(@RequestBody InvoiceDTO invoiceDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
         InvoiceDTO invoice = invoiceService.createInvoice(clientId, invoiceDTO, userId);
-        return ResponseEntity.ok(invoice);
+        return ResponseEntity.status(HttpStatus.CREATED).body(invoice);
     }
 
     @GetMapping("/api/clients/invoices/{clientId}")

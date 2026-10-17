@@ -21,8 +21,7 @@ public class TimeEntryController {
     @PostMapping("/api/tasks/{taskId}/time-entries")
     public ResponseEntity<TimeEntryDTO> createTimeEntry(@PathVariable Long taskId, @AuthenticationPrincipal Long userId, @Valid @RequestBody TimeEntryDTO timeEntryDTO){
         TimeEntryDTO newTimeEntryDTO = timeEntryService.createTimeEntry(taskId,userId,timeEntryDTO);
-        return ResponseEntity.ok(newTimeEntryDTO);
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(newTimeEntryDTO);
     }
 
     @GetMapping("/api/{taskId}/time-entries")

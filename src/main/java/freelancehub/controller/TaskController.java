@@ -19,7 +19,7 @@ public class TaskController {
     @PostMapping("/api/projects/{projectId}/tasks")
     public ResponseEntity<TaskDTO> createTask(@PathVariable Long projectId, @RequestBody TaskDTO taskDTO,  @AuthenticationPrincipal Long userId){
         TaskDTO NewTaskDTO = taskService.createTask(projectId,taskDTO, userId);
-        return ResponseEntity.ok(NewTaskDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(NewTaskDTO);
     }
 
     @GetMapping("/api/projects/{projectId}/tasks")
@@ -42,6 +42,6 @@ public class TaskController {
     @DeleteMapping("/api/projects/{projectId}/tasks")
     public ResponseEntity<String> deleteTask(@PathVariable Long projectId,  @AuthenticationPrincipal Long userId){
         taskService.deleteTask(projectId, userId);
-        return ResponseEntity.status(HttpStatus.OK).body("Task updated");
+        return ResponseEntity.noContent().build();
     }
 }
