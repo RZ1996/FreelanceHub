@@ -4,6 +4,7 @@ import freelancehub.dto.ProjectDTO;
 import freelancehub.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,20 +19,20 @@ public class ProjectController {
     }
 
     @GetMapping("/api/clients/{clientId}/projects")
-    public ResponseEntity <List<ProjectDTO>> getProjects(@PathVariable Long clientId){
-        List<ProjectDTO> projects = projectService.getProjects(clientId);
+    public ResponseEntity <List<ProjectDTO>> getProjects(@PathVariable Long clientId, @AuthenticationPrincipal Long userId){
+        List<ProjectDTO> projects = projectService.getProjects(clientId, userId);
         return ResponseEntity.ok(projects);
     }
 
     @PostMapping("/api/clients/{clientId}/projects")
-    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO, @PathVariable Long clientId){
-        ProjectDTO NewProjectDTO = projectService.createProject(projectDTO, clientId);
+    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO, @PathVariable Long clientId, @AuthenticationPrincipal Long userId){
+        ProjectDTO NewProjectDTO = projectService.createProject(projectDTO, clientId, userId);
         return ResponseEntity.ok(NewProjectDTO);
     }
 
     @PatchMapping("/api/clients/{clientId}/projects")
-    public ResponseEntity<ProjectDTO> updateProject(@PathVariable Long id, @RequestBody ProjectDTO projectDTO){
-        ProjectDTO updatedProjectDTO = projectService.updateProject(id,projectDTO);
+    public ResponseEntity<ProjectDTO> updateProject(@PathVariable Long id, @RequestBody ProjectDTO projectDTO, @AuthenticationPrincipal Long userId){
+        ProjectDTO updatedProjectDTO = projectService.updateProject(id,projectDTO, userId);
         return ResponseEntity.ok(updatedProjectDTO);
     }
 }
